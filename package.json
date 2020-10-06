@@ -1,5 +1,5 @@
 {
-  "name": "bt-triones",
+  "name": "vue-electron-template",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
@@ -9,7 +9,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@abandonware/noble": "^1.9.2-10",
     "core-js": "^3.6.5",
     "vue": "^3.0.0-0"
   },
