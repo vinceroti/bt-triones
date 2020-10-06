@@ -1,0 +1,73 @@
+body {
+  font-family: font-family(sans-serif);
+  font-size: font-size(base);
+  color: color(medium-gray);
+  line-height: em(16) * 1.5;
+}
+
+*:focus {
+  outline: 3px auto -webkit-focus-ring-color !important;
+}
+
+#{headings(1,6)} {
+  line-height: em(16);
+}
+
+h1 {
+  @include h1;
+}
+
+h2 {
+  @include h2;
+}
+
+h3 {
+  @include h3;
+}
+
+h4 {
+  @include h4;
+}
+
+h5 {
+  @include h5;
+}
+
+h6 {
+  @include h6;
+}
+
+p {
+  @include p;
+}
+
+a {
+  @include a;
+}
+
+.a-bg {
+  @include a-bg;
+}
+
+strong,
+b {
+  font-weight: font-weight(sans-serif-bold);
+}
+
+em {
+  font-style: italic;
+}
+
+hr {
+  border-bottom: 1px solid color(medium-gray);
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  margin: spacing(paragraph) 0;
+}
+
+.breadcrumbs {
+  font-size: font-size(label);
+}
+
+@include typekit-foit();

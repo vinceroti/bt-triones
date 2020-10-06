@@ -1,0 +1,72 @@
+.slide-fade-enter-active {
+  transition: all .3s ease 0.2s;
+}
+.slide-fade-leave-active {
+  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0) ;
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
+.spin-fade-enter-active {
+  transition: all 0.2s ease;
+}
+.spin-fade-leave-active {
+  transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.spin-fade-enter {
+  transform: rotate(90deg);
+}
+.spin-fade-leave-to {
+  transform: rotate(-90deg);
+}
+.fadeHeight-enter-active,
+.fadeHeight-leave-active {
+  transition: all 0.2s;
+  max-height: 100vh;
+}
+.fadeHeight-enter,
+.fadeHeight-leave-to {
+  opacity: 0;
+  max-height: 0px;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+.slide-out-enter-active,
+.slide-out-leave-active {
+  transition: 0.3s all ease-in-out;
+}
+.slide-out-leave-to,
+.slide-out-enter {
+  transform: translateX(100%);
+  @include respond-to(medium) {
+    transform: none;
+  }
+}
+.zoom-enter-active,
+.zoom-leave-active {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-name: zoom;
+}
+
+.zoom-leave-active {
+  animation-direction: reverse;
+}
+
+@keyframes zoom {
+  from {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,32 @@
+.button-basic {
+  @include button-basic;
+}
+.button-primary {
+  @include button-primary;
+}
+.button-primary-hollow {
+  @include button-primary-hollow;
+}
+.button-secondary {
+  @include button-secondary;
+}
+.button-tertiary {
+  @include button-tertiary;
+}
+.button-tertiary-hollow {
+  @include button-tertiary-hollow;
+}
+.button-link {
+  @include button-link;
+}
+.button-link-white {
+  @include button-link;
+  color: color(white);
+}
+.button-link-delete {
+  @include button-link;
+  color: color(red);
+}
+.button-delete {
+  @include button-delete;
+}

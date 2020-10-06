@@ -1,0 +1,336 @@
+@mixin h1 {
+  font-size: font-size(h1-mobile);
+  font-weight: font-weight(sans-serif-bold);
+  text-transform: uppercase;
+  color: color(black);
+  margin: 0;
+  @include respond-to(medium) {
+    font-size: font-size(h1);
+  }
+}
+@mixin h2 {
+  font-size: font-size(h2-mobile);
+  font-weight: font-weight(sans-serif-bold);
+  text-transform: uppercase;
+  color: color(medium-gray);
+  margin: 0 0 spacing(half);
+  @include respond-to(medium) {
+    font-size: font-size(h2);
+  }
+}
+@mixin h3 {
+  font-size: font-size(h3-mobile);
+  font-weight: font-weight(sans-serif-bold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: color(black);
+  margin: 0 0 spacing(element);
+  @include respond-to(medium) {
+    font-size: font-size(h3);
+  }
+}
+@mixin h4 {
+  font-size: font-size(h4-mobile);
+  font-weight: font-weight(sans-serif-bold);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: color(black);
+  margin: 0 0 spacing(paragraph);
+  @include respond-to(medium) {
+    font-size: font-size(h4);
+  }
+}
+@mixin h5 {
+  font-size: font-size(h5);
+  font-weight: font-weight(sans-serif-bold);
+  color: color(black);
+  margin: 0 0 spacing(paragraph);
+}
+@mixin h6 {
+  font-size: font-size(h6);
+  font-weight: font-weight(sans-serif-bold);
+  color: color(black);
+  margin: 0 0 spacing(paragraph);
+}
+@mixin a {
+  color: color(medium-gray);
+  text-decoration: none;
+  transition: color 0.2s linear;
+  -webkit-tap-highlight-color: transparent;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+@mixin mini-a {
+  @extend a;
+  color: color(black);
+  font-size: font-size(label);
+  &:hover {
+    color: color(light-gray);
+  }
+}
+@mixin a-bg {
+  @extend a;
+  color: color(white);
+}
+@mixin p {
+  font-family: inherit;
+  color: inherit;
+  font-size: font-size(base);
+  margin: 0 0 spacing(paragraph) 0;
+  &:last-child {
+    margin: 0;
+  }
+}
+@mixin button-base {
+  position: relative;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  line-height: 1em;
+  transition: color 0.2s linear, background-color 0.2s linear, border 0.2s linear;
+  box-shadow: none;
+  cursor: pointer;
+}
+@mixin button-basic {
+  @include button-base;
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: color(medium-gray);
+  text-decoration: underline;
+  &:hover, &.button-hover {
+    color: color(black);
+  }
+}
+@mixin button-link {
+  @include button-base;
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  text-transform: none;
+  color: color(medium-gray);
+  &:hover, &.button-hover {
+    text-decoration: underline;
+  }
+}
+@mixin button-primary {
+  @include button-base;
+  background-color: color(black);
+  border: 1px solid color(black);
+  font-size: rem(15);
+  color: color(white);
+  height: spacing(double);
+  padding: 0 spacing(section);
+  &::after {
+    display: block;
+    content: '';
+    transition: background-image 0.2s linear;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: inline-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.56 20"><path fill="' + color(white) + '" d="M10 8.44L1.56 0 0 1.56 8.44 10 0 18.44 1.56 20 10 11.56 11.56 10z"/></svg>');
+    width: rem(13);
+    height: rem(13);
+    margin-left: spacing(paragraph);
+    position: absolute;
+    right: rem(10);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &:hover, &.button-hover {
+    background-color: color(white);
+    color: color(black);
+    &::after {
+      background-image: inline-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.56 20"><path fill="' + color(black) + '" d="M10 8.44L1.56 0 0 1.56 8.44 10 0 18.44 1.56 20 10 11.56 11.56 10z"/></svg>');
+    }
+  }
+  &:disabled{
+    border: 0;
+    background-color: color(light-gray);
+    color: color(medium-gray);
+    pointer-events: none;
+    &::after {
+      background-image: inline-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.56 20"><path fill="' + color(medium-gray) + '" d="M10 8.44L1.56 0 0 1.56 8.44 10 0 18.44 1.56 20 10 11.56 11.56 10z"/></svg>');
+    }
+  }
+}
+@mixin button-primary-hollow {
+  @include button-primary;
+  background-color: transparent;
+  border-color: color(white);
+  &::after {
+    background-image: inline-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.56 20"><path fill="'+ color(white) + '" d="M10 8.44L1.56 0 0 1.56 8.44 10 0 18.44 1.56 20 10 11.56 11.56 10z"/></svg>');
+  }
+  &:hover, &.button-hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: color(white);
+    &::after {
+      background-image: inline-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.56 20"><path fill="'+ color(white) + '" d="M10 8.44L1.56 0 0 1.56 8.44 10 0 18.44 1.56 20 10 11.56 11.56 10z"/></svg>');
+    }
+  }
+}
+@mixin button-secondary {
+  @include button-base;
+  border: 1px solid color(black);
+  background-color: color(white);
+  font-size: rem(15);
+  color: color(black);
+  height: spacing(double);
+  padding: 0 spacing(section);
+  &::after {
+    display: block;
+    content: '';
+    transition: background-image 0.2s linear;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: inline-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.56 20"><path fill="' + color(black) + '" d="M10 8.44L1.56 0 0 1.56 8.44 10 0 18.44 1.56 20 10 11.56 11.56 10z"/></svg>');
+    width: rem(13);
+    height: rem(13);
+    margin-left: spacing(paragraph);
+    position: absolute;
+    right: rem(10);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &:hover, &.button-hover {
+    background-color: color(black);
+    color: color(white);
+    &::after {
+      background-image: inline-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.56 20"><path fill="' + color(white) + '" d="M10 8.44L1.56 0 0 1.56 8.44 10 0 18.44 1.56 20 10 11.56 11.56 10z"/></svg>');
+    }
+  }
+}
+@mixin button-delete {
+  @include button-base;
+  border: 1px solid color(red);
+  background-color: color(red);
+  font-size: rem(15);
+  color: color(white);
+  height: spacing(double);
+  padding: 0 spacing(section);
+  &::after {
+    display: block;
+    content: '';
+    transition: background-image 0.2s linear;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: inline-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.56 20"><path fill="' + color(white) + '" d="M10 8.44L1.56 0 0 1.56 8.44 10 0 18.44 1.56 20 10 11.56 11.56 10z"/></svg>');
+    width: rem(13);
+    height: rem(13);
+    margin-left: spacing(paragraph);
+    position: absolute;
+    right: rem(10);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &:hover, &.button-hover {
+    background-color: color(white);
+    color: color(red);
+    &::after {
+      background-image: inline-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.56 20"><path fill="' + color(red) + '" d="M10 8.44L1.56 0 0 1.56 8.44 10 0 18.44 1.56 20 10 11.56 11.56 10z"/></svg>');
+    }
+  }
+}
+
+@mixin button-tertiary {
+  @include button-base;
+  display: block;
+  border: 1px solid color(black);
+  content: '';
+  text-indent: -9999px;
+  width: rem(40);
+  height: rem(40);
+  transition: background-image 0.2s linear;
+  background-repeat: no-repeat;
+  background-size: rem(13) rem(13);
+  background-position: center;
+  background-image: inline-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.56 20"><path fill="' + color(black) + '" d="M10 8.44L1.56 0 0 1.56 8.44 10 0 18.44 1.56 20 10 11.56 11.56 10z"/></svg>');
+  &:hover, &.button-hover {
+    background-color: color(black);
+    background-image: inline-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.56 20"><path fill="' + color(white) + '" d="M10 8.44L1.56 0 0 1.56 8.44 10 0 18.44 1.56 20 10 11.56 11.56 10z"/></svg>');
+  }
+}
+@mixin button-tertiary-hollow {
+  @include button-tertiary;
+  border-color: color(white);
+  background-color: transparent;
+  &:hover, &.button-hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    background-image: inline-svg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.56 20"><path fill="'+ color(white) + '" d="M10 8.44L1.56 0 0 1.56 8.44 10 0 18.44 1.56 20 10 11.56 11.56 10z"/></svg>');
+  }
+}
+
+@mixin respond-to($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+      @content;
+    }
+  }
+
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+    +"Please make sure it is defined in `$breakpoints` map.";
+  }
+}
+
+@mixin typekit-loading($array) {
+  @each $selector in $array {
+    #{$selector} {
+      opacity: 0;
+    }
+  }
+}
+
+@mixin typekit-loaded($array) {
+  @keyframes fadeInFonts {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @each $selector in $array {
+    #{$selector} {
+      animation-name: fadeInFonts;
+      animation-duration: .4s;
+    }
+  }
+}
+
+@mixin typekit-foit() {
+  .wf-loading {
+    #{headings(1,4)} {
+      opacity: 0;
+    }
+
+    @include typekit-loading($typekit-loading);
+  }
+
+  @each $font in $typekit-loaded {
+    #{$font} {
+      @include typekit-loaded($typekit-loading);
+    }
+  }
+}
+
+@mixin inputs-text() {
+
+  input[type=text],
+  input[type=password],
+  input[type=search],
+  input[type=email],
+  input[type=url],
+  input[type=tel],
+  input[type=number],
+  input[type=date] {
+    @content;
+  }
+}
+

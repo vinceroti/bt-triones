@@ -1,0 +1,94 @@
+// Typography
+$colors: (
+  white: #fff,
+  extra-light-gray: darken(#fff, 10%),
+  light-gray: darken(#fff, 20%),
+  medium-gray: darken(#fff, 52%),
+  dark-gray: darken(#fff, 70%),
+  extra-dark-gray: darken(#fff, 90%),
+  black: #000000,
+  red: #cc0000,
+  green: green,
+  gold: gold
+);
+$font-families: (
+  sans-serif: sans-serif
+);
+$font-weights: (
+  sans-serif-regular: 400,
+  sans-serif-bold: 800
+);
+$font-sizes: (
+  base: rem(16),
+  h1: rem(44),
+  h1-mobile: rem(44),
+  h2: rem(36),
+  h2-mobile: rem(36),
+  h3: rem(36),
+  h3-mobile: rem(36),
+  h4: rem(24),
+  h4-mobile: rem(24),
+  h5: rem(18),
+  h6: rem(16),
+  label: rem(12)
+);
+$typekit-loaded: (
+  '.wf-active'
+);
+$typekit-loading: (
+);
+$header-height: rem(80);
+$alert-height: rem(25);
+$input-height: rem(35);
+
+$header-alert-height: calc(#{$header-height} + #{$alert-height});
+
+// Breakpoints
+$breakpoints: (small: (480 / 16) * 1rem,
+  small-medium: (600 / 16) * 1rem,
+  medium: (768 / 16) * 1rem,
+  medium-large: (900 / 16) * 1rem,
+  large: (1024 / 16) * 1rem,
+  xlarge: (1200 / 16) * 1rem,
+  full-size: (1440 / 16) * 1rem);
+
+// Transitions
+$transitions: (dropdown: (time: 0.3s,
+    p0: 0.465,
+    p1: 0.183,
+    p2: 0.153,
+    p3: 0.946),
+  rotate: (time: 0.12s,
+    p0: 0.42,
+    p1: 0,
+    p2: 0.58,
+    p3: 1),
+  fade: (time: 0.5s,
+    p0: 0.215,
+    p1: 0.61,
+    p2: 0.355,
+    p3: 1),
+  slide: (time: 0.7s,
+    p0: 0.05,
+    p1: 0.82,
+    p2: 0.38,
+    p3: 0.93,
+  ));
+
+// Z-indexes
+$zindex: (behind: -1,
+  base: 0,
+  page: 1,
+  dropdown: 2,
+  fixed: 3,
+  modal-overlay: 4,
+  modal-window: 5,
+  loading: 6);
+
+// Spacing
+$spacing: (section: rem(70),
+  double: rem(40),
+  base: rem(25),
+  half: rem(15),
+  paragraph: rem(10),
+  element: rem(5));

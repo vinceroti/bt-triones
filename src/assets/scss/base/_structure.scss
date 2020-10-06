@@ -1,0 +1,85 @@
+body {
+  background-color: color(extra-light-gray);
+}
+
+body,
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.wrapper {
+  background-color: color(extra-light-gray);
+}
+
+main {
+  position: relative;
+  flex: 1 0 auto;
+  width: 100%;
+  margin-bottom: spacing(section);
+}
+
+.container {
+  max-width: breakpoint(full-size);
+  padding: 0 spacing(base);
+  margin: 0 auto;
+}
+
+.container-medium {
+  max-width: breakpoint(large);
+  padding: 0 spacing(base);
+  margin: 0 auto;
+}
+
+img {
+  vertical-align: bottom;
+  width: 100%;
+  height: auto;
+  &[lazy="error"] {
+    width: 50%;
+  }
+}
+
+table {
+  width: 100%;
+  tbody {
+    width: 100%;
+  }
+  th,
+  td {
+    padding: spacing(element) spacing(base);
+  }
+  th {
+    background: color(black);
+    color: color(white);
+  }
+  tr:nth-child(even) {
+    td {
+      background-color: color(light-gray);
+    }
+  }
+}
+
+.bullet-list, .number-list {
+  padding-left: spacing(paragraph);
+  margin-bottom: spacing(base);
+  li {
+    margin-left: spacing(paragraph);
+    list-style-type: disc;
+    margin-bottom: spacing(paragraph);
+  }
+}
+.number-list {
+  li {
+    list-style-type: decimal;
+  }
+}
+
+.country-global {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 654 654'%3E%3Cstyle%3E.st0%7Bfill:%232b83bf%7D.st1%7Bfill:%2386d35e%7D%3C/style%3E%3Cpath class='st0' d='M597.7 141.2l-9.2 2.5-50.5 4.4-14.2 23-10.6-3.5-40.8-36.3-6.2-18.6-8-20.4-25.7-23-30.1-5.3-.9 13.3 29.2 28.4 13.3 15.9-15.9 8.9-13.3-3.5-19.5-8 .9-15.9-25.7-10.6-8.9 37.2-25.7 6.2 2.7 21.3 33.7 6.2 6.2-33.7 28.4 4.4 13.3 8h21.3l14.2 28.4 38.1 38.1-2.7 15.1-31-3.5-53.2 26.6-38.1 46.1-5.3 20.4h-13.3l-25.7-11.5-24.9 11.2 6.2 25.7 10.6-11.5 18.6-.9-.9 23 15.9 4.4 15.9 17.7 26.6-6.2 29.2 4.4 33.7 8.9 16.8 1.8 28.4 32.8 55.8 32.8-35.4 68.2-38 17.7-14.2 39-54.9 36.3-6.2 21.3-34.6 6.2-3.5-39s15.1-57.6 15.1-59.4-15.1-51.4-15.1-51.4l-23-43.4 21.3-44.3-21.3-6.2-23.9-23.9-53.2-11.5-17.7-37.2v21.3h-8l-46.1-62V227L164 173l-53.2 9.7H75.5l-17.7-11.5 23-18.6-23 5.3 28.1-40.8c-45 55-72 125.3-72 201.9 0 176.1 142.8 318.9 318.9 318.9S651.7 495.1 651.7 319c0-65.9-19.9-127-54-177.8z'/%3E%3Cpath class='st0' d='M132.2 102.1l56.7-8L214.6 80l29.2 8.9 47.8-1.8 15.9-25.7 23 3.5 56.7-5.3 15.9-17.7 22.1-14.2 31 4.4 12.3-1.8C427.5 10.9 381.4 0 332.8 0c-98.7 0-187 44.9-245.5 115.3l44.9-13.2zm213.5-70.9l32.8-17.7L398.9 25l-30.1 23-29.2 2.7-12.4-8 18.5-11.5zm-96.5 2.7l14.2 6.2 18.6-6.2 10.6 17.7-43.4 11.5-21.3-12.4s20.4-13.3 21.3-16.8z'/%3E%3Cg%3E%3Cpath class='st1' d='M221.7 18.8s.9 0 .9-.9c0 .9-.9.9-.9.9zM368.8 48.1L398.9 25l-20.4-11.5-32.8 17.7-18.6 11.5 12.4 8zM292.6 51.6L282 33.9l-18.6 6.2-14.2-6.2c-.9 3.5-21.3 16.8-21.3 16.8l21.3 12.4 43.4-11.5z'/%3E%3Cpath class='st1' d='M432.5 69.3l25.7 23 8 20.4 6.2 18.6 40.8 36.3 10.6 3.5 14.2-23 50.5-4.4 9.7-2.7s-36.3-44.3-62.9-66.4c-26.6-23-66.4-44.3-66.4-44.3l-12.4 1.8-31-4.4-22.1 14.2-15.9 17.7-56.7 5.3-23-3.5L291.7 87l-47.8 1.8-29.3-8.8-25.7 14.2-56.7 8L87 115.4l-29.2 42.5 23-5.3-23 18.6 17.7 11.5h35.4l53.2-9.7 33.7 54v50.5l46.1 62h8v-21.3l17.7 37.2 53.2 11.5 23.9 23.9L368 397l-21.3 44.3 23 43.4s15.1 49.6 15.1 51.4-15.1 59.4-15.1 59.4l3.5 39 34.6-6.2L414 607l54.9-36.3 14.2-39 38.1-17.7 35.4-68.2-55.8-32.8-28.4-32.8-16.8-1.8-33.7-8.9-29.2-4.4-26.6 6.2-15.9-17.7-15.9-4.4.9-23-18.6.9-10.6 11.5-6.2-25.7 24.8-11.5 25.7 11.5h13.3l5.3-20.4 38.1-46.1 53.2-26.6 31 3.5 2.7-15.1-38.1-38.1-14.4-28.1h-21.3l-13.3-8-28.4-4.4-6.2 33.7-33.7-6.2-2.7-21.3 25.7-6.2 8.9-37.2 25.7 10.6-.9 15.9 19.5 8 13.3 3.5 15.9-8.9-13.3-15.9-29.2-28.4.9-13.3 30.2 5.4z'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}

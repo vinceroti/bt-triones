@@ -1,0 +1,140 @@
+@function breakpoint($key) {
+  @if map-has-key($breakpoints, $key) {
+    @return map-get($breakpoints, $key);
+  }
+
+  @warn "Unknown `#{$key}` in $breakpoints.";
+  @return null;
+}
+@function font-family($key) {
+  @if map-has-key($font-families, $key) {
+    @return map-get($font-families, $key);
+  }
+
+  @warn "Unknown `#{$key}` in $font-families.";
+  @return null;
+}
+@function font-size($key, $rem: false) {
+  @if map-has-key($font-sizes, $key) {
+    $val: map-get($font-sizes, $key);
+    @return $val;
+  }
+
+  @warn "Unknown `#{$key}` in $font-sizes.";
+  @return null;
+}
+@function font-weight($key) {
+  @if map-has-key($font-weights, $key) {
+    @return map-get($font-weights, $key);
+  }
+
+  @warn "Unknown `#{$key}` in $font-weights.";
+  @return null;
+}
+@function color($key) {
+  @if map-has-key($colors, $key) {
+    @return map-get($colors, $key);
+  }
+
+  @warn "Unknown `#{$key}` in $colors.";
+  @return null;
+}
+@function transition($key, $time: null) {
+  @if map-has-key($transitions, $key) {
+    $transition: map-get($transitions, $key);
+    $time: if($time, $time, map-get($transition, time));
+    $p0: map-get($transition, p0);
+    $p1: map-get($transition, p1);
+    $p2: map-get($transition, p2);
+    $p3: map-get($transition, p3);
+    @return $time cubic-bezier($p0, $p1, $p2, $p3);
+  }
+
+  @warn "Unknown `#{$key}` in $transitions.";
+  @return null;
+}
+@function headings($from:1, $to:6) {
+  @if $from == $to {
+    @return 'h#{$from}';
+  } @else {
+    @return 'h#{$from},' + headings($from+1, $to);
+  }
+}
+@function z-index($key) {
+  @if map-has-key($zindex, $key) {
+    @return map-get($zindex, $key);
+  }
+
+  @warn "Unknown `#{$key}` in $zindex.";
+  @return null;
+}
+$em-base: 16;
+@function em($pxval, $base: $em-base) {
+  @if not unitless($pxval) {
+  $pxval: strip-unit($pxval);
+  }
+  @if not unitless($base) {
+  $base: strip-unit($base);
+  }
+  @return ($pxval / $base) * 1em;
+}
+@function rem($pxval, $base: $em-base) {
+  @if not unitless($pxval) {
+  $pxval: strip-unit($pxval);
+  }
+  @if not unitless($base) {
+  $base: strip-unit($base);
+  }
+  @return ($pxval / $base) * 1rem;
+}
+@function spacing($key) {
+  @if map-has-key($spacing, $key) {
+    @return map-get($spacing, $key);
+  }
+
+  @warn "Unknown `#{$key}` in $spacing.";
+  @return null;
+}
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1)+$replace+str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+@function url-encode($string) {
+  $map: (
+    "%": "%25",
+    "<": "%3C",
+    ">": "%3E",
+    "!": "%21",
+    "*": "%2A",
+    "'": "%27",
+    '"': "'",
+    "(": "%28",
+    ")": "%29",
+    ";": "%3B",
+    "@": "%40",
+    "&": "%26",
+    "+": "%2B",
+    "$": "%24",
+    ",": "%2C",
+    "?": "%3F",
+    "#": "%23",
+    "[": "%5B",
+    "]": "%5D"
+    );
+  $new: $string;
+
+  @each $search,
+  $replace in $map {
+    $new: str-replace($new, $search, $replace);
+  }
+
+  @return $new;
+}
+@function inline-svg($string) {
+  @return url('data:image/svg+xml,#{url-encode($string)}');
+}
