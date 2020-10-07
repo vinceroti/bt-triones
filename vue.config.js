@@ -1,12 +1,15 @@
-const DEPLOYMENT_PATH = ''
+const DEPLOYMENT_PATH = "";
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? DEPLOYMENT_PATH : 'http://localhost:8080/',
+  publicPath:
+    process.env.NODE_ENV === "production"
+      ? DEPLOYMENT_PATH
+      : "http://localhost:8080/",
 
   devServer: {
-    public: 'localhost:8080',
+    public: "localhost:8080",
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      "Access-Control-Allow-Origin": "*",
     },
   },
-}
+};
