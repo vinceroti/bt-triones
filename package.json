@@ -1,10 +1,10 @@
 {
   "name": "bt-triones",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "electron.js",
   "scripts": {
     "start": "vue-cli-service build && electron .",
-    "dev": "NODE_ENV=development vue-cli-service serve & sleep 5 && NODE_ENV=development electron . & vue-devtools",
+    "dev": "NODE_ENV=development vue-cli-service serve & sleep 5 && NODE_ENV=development electron .",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -12,15 +12,13 @@
     "@abandonware/noble": "^1.9.2-10",
     "core-js": "^3.6.5",
     "vue": "^3.0.0-0",
-    "vuex": "^3.5.1",
-    "vuex-electron": "^1.0.3"
+    "vuex": "^4.0.0-beta.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0-0",
-    "@vue/devtools": "^5.3.3",
     "babel-eslint": "^10.1.0",
     "css-reset-and-normalize": "^2.1.0",
     "electron": "^10.1.3",
@@ -29,6 +27,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^7.0.0-0",
     "eslint-plugin-vue-a11y": "0.0.31",
+    "esm": "^3.2.25",
     "prettier": "2.1.2",
     "sass": "^1.26.12",
     "sass-loader": "^10.0.2"

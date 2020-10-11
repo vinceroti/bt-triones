@@ -1,7 +1,9 @@
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
-var bt = require("@abandonware/noble");
-// import store from "./store/index";
+const bt = require("@abandonware/noble");
+const store = require("./src/store/index.js");
+
+console.log(store.bt.state);
 
 bt.startScanning([], true);
 bt.on("stateChange", (e) => {
@@ -14,34 +16,27 @@ bt.on("discover", async (peripheral) => {
     peripheral.advertisement.localName.includes("Triones")
   ) {
     console.log("found triones");
-    await peripheral.connect();
-    await bt.stopScanningAsync();
-    peripheral.once("connect", async () => {
-      peripheral.discoverAllServicesAndCharacteristics(
-        (error, services, characteristics) => {
-          // console.log(characteristics)
-          characteristics.forEach((c) => {
-            if (c.properties.includes("write")) {
-              const b = Buffer.from([0xcc, 0x23, 0x33]);
-              console.log(c);
-              c.write(b, false, () => {
-                console.log("write");
-              });
-            }
-          });
-        }
-      );
-    });
-  }
-});
-
-window.addEventListener("DOMContentLoaded", () => {
-  const replaceText = (selector, text) => {
-    const element = document.getElementById(selector);
-    if (element) element.innerText = text;
-  };
-
-  for (const type of ["chrome", "node", "electron"]) {
-    replaceText(`${type}-version`, process.versions[type]);
+    try {
+      await peripheral.connect();
+      await bt.stopScanningAsync();
+      peripheral.once("connect", async () => {
+        peripheral.discoverAllServicesAndCharacteristics(
+          (error, services, characteristics) => {
+            // console.log(characteristics)
+            characteristics.forEach((c) => {
+              if (c.properties.includes("write")) {
+                const b = Buffer.from([0xcc, 0x23, 0x33]);
+                console.log(c);
+                c.write(b, false, () => {
+                  console.log("write");
+                });
+              }
+            });
+          }
+        );
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
 });
