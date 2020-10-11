@@ -1,7 +1,7 @@
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
 const bt = require("@abandonware/noble");
-const store = require("./src/store/index.js");
+const store = require("./store/index.js");
 
 console.log(store.bt.state);
 

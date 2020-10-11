@@ -1,13 +1,13 @@
 {
   "name": "bt-triones",
   "version": "1.0.0",
-  "main": "electron.js",
   "scripts": {
-    "start": "vue-cli-service build && electron .",
-    "dev": "NODE_ENV=development vue-cli-service serve & sleep 5 && NODE_ENV=development electron .",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "vue-cli-service electron:build",
+    "dev": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps"
   },
+  "main": "background.js",
   "dependencies": {
     "@abandonware/noble": "^1.9.2-10",
     "core-js": "^3.6.5",
@@ -30,7 +30,8 @@
     "esm": "^3.2.25",
     "prettier": "2.1.2",
     "sass": "^1.26.12",
-    "sass-loader": "^10.0.2"
+    "sass-loader": "^10.0.2",
+    "vue-cli-plugin-electron-builder": "~2.0.0-rc.4"
   },
   "browserslist": [
     "> 1%",
