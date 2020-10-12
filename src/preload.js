@@ -13,11 +13,11 @@ bt.on("discover", async (peripheral) => {
     peripheral.advertisement.localName &&
     peripheral.advertisement.localName.includes("Triones")
   ) {
-    console.log("found triones");
     try {
       await peripheral.connect();
       await bt.stopScanningAsync();
       peripheral.once("connect", async () => {
+        store.dispatch("bt/set", true);
         peripheral.discoverAllServicesAndCharacteristics(
           (error, services, characteristics) => {
             // console.log(characteristics)
@@ -27,7 +27,6 @@ bt.on("discover", async (peripheral) => {
                 console.log(c);
                 c.write(b, false, () => {
                   console.log("write");
-                  store.dispatch("bt/set", true);
                 });
               }
             });
