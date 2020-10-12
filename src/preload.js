@@ -1,9 +1,7 @@
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
-const bt = require("@abandonware/noble");
-const store = require("./store/index.js");
-
-console.log(store.bt.state);
+import bt from "@abandonware/noble";
+import store from "./store/index";
 
 bt.startScanning([], true);
 bt.on("stateChange", (e) => {
@@ -29,6 +27,7 @@ bt.on("discover", async (peripheral) => {
                 console.log(c);
                 c.write(b, false, () => {
                   console.log("write");
+                  store.dispatch("bt/set", true);
                 });
               }
             });

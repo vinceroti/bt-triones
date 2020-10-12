@@ -1,5 +1,6 @@
 "use strict";
-
+// eslint-disable-next-line no-unused-vars
+import store from "./store/index";
 import { app, protocol, BrowserWindow, session } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import path from "path";

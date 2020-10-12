@@ -7,8 +7,13 @@ export default {
     connected: (state) => state.connected,
   },
   mutations: {
-    setConnection(state, status) {
+    changeConnection(state, status) {
       state.connected = status;
+    },
+  },
+  actions: {
+    set(context, status) {
+      context.commit("changeConnection", status);
     },
   },
 };
