@@ -1,14 +1,14 @@
 <template>
-  <Main />
+  <index />
 </template>
 
 <script>
-import Main from "./components/Main.vue";
+import Index from "./components/Index.vue";
 
 export default {
   name: "app",
   components: {
-    Main,
+    Index,
   },
 };
 </script>

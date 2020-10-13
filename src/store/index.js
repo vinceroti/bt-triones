@@ -1,8 +1,11 @@
 import bt from "./bt";
-import { createStore } from "vuex";
 import { createSharedMutations } from "vuex-electron";
+import Vue from "vue";
+import Vuex from "vuex";
 
-export default createStore({
+Vue.use(Vuex);
+
+export default new Vuex.Store({
   modules: {
     bt,
   },

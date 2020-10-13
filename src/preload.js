@@ -3,35 +3,26 @@
 import bt from "@abandonware/noble";
 import store from "./store/index";
 
-bt.startScanning([], true);
-bt.on("stateChange", (e) => {
-  console.log(e);
+window.addEventListener("DOMContentLoaded", () => {
+  bt.on("stateChange", async (state) => {
+    if (state === "poweredOn") {
+      await bt.startScanningAsync([], true);
+      store.dispatch("bt/power", "on");
+    }
+  });
 });
 
 bt.on("discover", async (peripheral) => {
-  if (
-    peripheral.advertisement.localName &&
-    peripheral.advertisement.localName.includes("Triones")
-  ) {
+  store.dispatch("bt/connectText", "scanning...");
+  let name = peripheral.advertisement.localName;
+  if (name && name.includes("Triones")) {
     try {
       await peripheral.connect();
       await bt.stopScanningAsync();
       peripheral.once("connect", async () => {
-        store.dispatch("bt/set", true);
-        peripheral.discoverAllServicesAndCharacteristics(
-          (error, services, characteristics) => {
-            // console.log(characteristics)
-            characteristics.forEach((c) => {
-              if (c.properties.includes("write")) {
-                const b = Buffer.from([0xcc, 0x23, 0x33]);
-                console.log(c);
-                c.write(b, false, () => {
-                  console.log("write");
-                });
-              }
-            });
-          }
-        );
+        store.dispatch("bt/connectText", name);
+        store.dispatch("bt/connect", true);
+        store.dispatch("bt/deviceId", peripheral.id);
       });
     } catch (e) {
       console.error(e);
