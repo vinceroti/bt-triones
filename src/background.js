@@ -1,8 +1,10 @@
 "use strict";
+
 // eslint-disable-next-line no-unused-vars
 import store from "./store/index";
-import { app, protocol, BrowserWindow, session } from "electron";
+import { app, protocol, BrowserWindow } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
+import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -65,13 +67,12 @@ app.on("activate", () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", async () => {
-  if (isDevelopment) {
+  if (isDevelopment && !process.env.IS_TEST) {
+    // Install Vue Devtools
     try {
-      await session.defaultSession.loadExtension(
-        path.join(__dirname, "../vue-devtools")
-      );
+      await installExtension(VUEJS_DEVTOOLS);
     } catch (e) {
-      console.log("Devtools failed to load");
+      console.error("Vue Devtools failed to install:", e.toString());
     }
   }
   createWindow();

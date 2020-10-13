@@ -16,6 +16,8 @@
         placeholder="Mode Selection"
         v-model="value"
         :options="options"
+        track-by="name"
+        label="name"
       ></multiselect>
     </main>
     <footer></footer>
