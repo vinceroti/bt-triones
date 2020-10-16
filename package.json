@@ -16,8 +16,10 @@
     "hex2dec": "^1.1.2",
     "lodash": "^4.17.20",
     "vue": "^2.6.12",
+    "vue-audio-visual": "^2.2.0",
     "vue-color": "^2.7.1",
     "vue-multiselect": "^2.1.6",
+    "vue-router": "^3.2.0",
     "vue-slider-component": "^3.2.6",
     "vuex": "^3.5.1",
     "vuex-electron": "^1.0.3"
@@ -25,6 +27,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "^4.5.7",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0-0",
     "babel-eslint": "^10.1.0",

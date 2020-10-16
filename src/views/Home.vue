@@ -1,38 +1,31 @@
 <template>
-  <div class="container">
-    <header>
-      <status-bar />
-    </header>
-    <main v-if="btConnected">
-      <div class="on-off">
-        <button class="button-primary" @click="click(0x23)" ref="button">
-          Turn On
-        </button>
-        <button class="button-primary" @click="click(0x24)" ref="button">
-          Turn Off
-        </button>
-      </div>
-      <multiselect
-        placeholder="Mode Selection"
-        v-model="dropdownValue"
-        :options="dropDownOptions"
-        track-by="name"
-        label="name"
-        @select="select"
-      ></multiselect>
-      <vue-slider @change="slide" v-model="sliderValue" />
-      <chrome-picker
-        v-model="colorPicker"
-        @input="inputColor"
-        class="custom-styling-picker"
-      />
-    </main>
-    <footer></footer>
+  <div>
+    <div class="on-off">
+      <button class="button-primary" @click="click(0x23)" ref="button">
+        Turn On
+      </button>
+      <button class="button-primary" @click="click(0x24)" ref="button">
+        Turn Off
+      </button>
+    </div>
+    <multiselect
+      placeholder="Mode Selection"
+      v-model="dropdownValue"
+      :options="dropDownOptions"
+      track-by="name"
+      label="name"
+      @select="select"
+    ></multiselect>
+    <vue-slider @change="slide" v-model="sliderValue" />
+    <chrome-picker
+      v-model="colorPicker"
+      @input="inputColor"
+      class="custom-styling-picker"
+    />
   </div>
 </template>
 
 <script>
-import StatusBar from "./StatusBar.vue";
 import { mapGetters } from "vuex";
 import bt from "@abandonware/noble";
 import Multiselect from "vue-multiselect";
@@ -47,7 +40,6 @@ let char;
 
 export default {
   components: {
-    StatusBar,
     Multiselect,
     VueSlider,
     "chrome-picker": Chrome,
@@ -83,7 +75,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ btConnected: "bt/connected", deviceId: "bt/deviceId" }),
+    ...mapGetters({ deviceId: "bt/deviceId" }),
   },
   watch: {
     deviceId() {
