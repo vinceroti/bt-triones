@@ -1,12 +1,13 @@
 <template>
   <div class="audio-container">
     <av-media
-      :media="media"
       v-if="micPerm"
-      type="circle"
+      :media="media"
+      type="frequ"
       line-color="#00AAFF"
       :radius="4"
       :canv-height="200"
+      :frequ-lnum="sliderValue"
     />
     <meter max="100" :value="value"></meter>
     <vue-slider v-model="sliderValue" /> Intensity Slider -
@@ -26,7 +27,8 @@ export default {
       media: null,
       value: 0,
       ac: null,
-      sliderValue: 0,
+      an: null,
+      sliderValue: 50,
     };
   },
   computed: {
@@ -36,9 +38,7 @@ export default {
     if (!this.micPerm) return this.alert();
     await this.setAudio();
     this.audioDb();
-    console.log("mount");
   },
-  // eslint-disable-next-line vue/no-deprecated-destroyed-lifecycle
   beforeDestroy() {
     if (this.ac) this.ac.suspend();
     cancelAnimationFrame(this.ac);
@@ -62,31 +62,28 @@ export default {
       }
     },
     audioDb() {
-      const self = this;
       const ac = new AudioContext();
       this.ac = ac;
-      const an = ac.createAnalyser();
+      this.an = ac.createAnalyser();
       const source = ac.createMediaStreamSource(this.media);
-      source.connect(an);
-      requestAnimationFrame(f);
+      source.connect(this.an);
+      requestAnimationFrame(this.freqLoop);
+    },
+    freqLoop() {
+      const an = this.an;
+      const freqs = new Uint8Array(an.frequencyBinCount);
+      const times = new Uint8Array(an.frequencyBinCount);
+      an.smoothingTimeConstant = 0.8;
+      an.getByteFrequencyData(freqs);
+      an.getByteTimeDomainData(times);
 
-      function f() {
-        const freqs = new Uint8Array(an.frequencyBinCount);
-        const times = new Uint8Array(an.frequencyBinCount);
-        an.smoothingTimeConstant = 0.8;
-        an.getByteFrequencyData(freqs);
-        an.getByteTimeDomainData(times);
+      //set average number freq data to meter value, might not be a great solution but works for now
 
-        //set average number freq data to meter value, might not be a great solution but works for now
-
-        let total = 0;
-        for (let i = 0; i < freqs.length; i++) {
-          total += freqs[i];
-        }
-        const avg = total / freqs.length;
-        self.value = avg * (self.sliderValue * 0.02);
-        if (!self._isDestroyed) requestAnimationFrame(f);
-      }
+      let total = 0;
+      for (let i = 0; i < freqs.length; i++) total += freqs[i];
+      const avg = total / freqs.length;
+      this.value = avg * (this.sliderValue * 0.02);
+      if (!this._isDestroyed) requestAnimationFrame(this.freqLoop);
     },
   },
 };

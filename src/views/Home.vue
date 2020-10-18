@@ -1,26 +1,26 @@
 <template>
   <div>
     <div class="on-off">
-      <button class="button-primary" @click="click(0x23)" ref="button">
+      <button ref="button" class="button-primary" @click="click(0x23)">
         Turn On
       </button>
-      <button class="button-primary" @click="click(0x24)" ref="button">
+      <button ref="button" class="button-primary" @click="click(0x24)">
         Turn Off
       </button>
     </div>
     <multiselect
-      placeholder="Mode Selection"
       v-model="dropdownValue"
+      placeholder="Mode Selection"
       :options="dropDownOptions"
       track-by="name"
       label="name"
       @select="select"
     ></multiselect>
-    <vue-slider @change="slide" v-model="sliderValue" />
+    <vue-slider v-model="sliderValue" @change="slide" />
     <chrome-picker
       v-model="colorPicker"
-      @input="inputColor"
       class="custom-styling-picker"
+      @input="inputColor"
     />
   </div>
 </template>
@@ -33,8 +33,6 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 import converter from "hex2dec";
 import { Chrome } from "vue-color";
 import debounce from "lodash/debounce";
-
-let char;
 
 export default {
   components: {
@@ -69,6 +67,7 @@ export default {
         { code: 0x38, name: "Seven color jumping change" },
       ],
       colorPicker: 0,
+      char: null,
     };
   },
   computed: {
@@ -82,32 +81,32 @@ export default {
   mounted() {
     this.findChar();
   },
-  beforeUnmount() {
-    char = null;
+  beforeDestroy() {
+    // this. null;
   },
   methods: {
     findChar() {
-      if (this.deviceId && !char) {
+      if (this.deviceId && !this.char) {
         const peripheral = bt._peripherals[this.deviceId];
         peripheral.discoverAllServicesAndCharacteristics(
           (error, services, characteristics) => {
             characteristics.forEach((c) => {
-              if (c.properties.includes("write")) char = c;
+              if (c.properties.includes("write")) this.char = c;
             });
           }
         );
       }
     },
     select(e) {
-      if (char) {
+      if (this.char) {
         const buff = Buffer.from([0xbb, e.code, this.speed, 0x44]);
-        char.write(buff, true, this.callback);
+        this.char.write(buff, true, this.callback);
       }
     },
     click(code) {
-      if (char) {
+      if (this.char) {
         const buff = Buffer.from([0xcc, code, 0x33]);
-        char.write(buff, true, this.callback);
+        this.char.write(buff, true, this.callback);
       }
     },
     slide(e) {
@@ -116,12 +115,12 @@ export default {
       if (this.dropdownValue) this.select(this.dropdownValue);
     },
     inputColor: debounce(function (e) {
-      if (char) {
+      if (this.char) {
         const r = converter.decToHex(e.rgba.r.toString());
         const g = converter.decToHex(e.rgba.g.toString());
         const b = converter.decToHex(e.rgba.b.toString());
         const buff = Buffer.from([0x56, r, g, b, 0x00, 0xf0, 0xaa]);
-        char.write(buff, true, this.callback);
+        this.char.write(buff, true, this.callback);
       }
     }, 25),
     callback(e) {

@@ -19,7 +19,7 @@
 import StatusBar from "./components/StatusBar.vue";
 import { mapGetters } from "vuex";
 export default {
-  name: "app",
+  name: "App",
   components: {
     StatusBar,
   },

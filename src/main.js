@@ -5,7 +5,7 @@ import router from "./router";
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
 
-Vue.component("vue-slider", VueSlider);
+Vue.component("VueSlider", VueSlider);
 
 new Vue({
   el: "#app",
