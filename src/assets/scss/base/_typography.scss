@@ -1,7 +1,7 @@
 body {
-  font-family: font-family(sans-serif);
+  font-family: font-family(commissioner), font-family(sans-serif);
   font-size: font-size(base);
-  color: color(medium-gray);
+  color: color(white);
   line-height: em(16) * 1.5;
 }
 
@@ -51,7 +51,7 @@ a {
 
 strong,
 b {
-  font-weight: font-weight(sans-serif-bold);
+  font-weight: font-weight(commissioner-bold);
 }
 
 em {

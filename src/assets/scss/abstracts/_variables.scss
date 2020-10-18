@@ -9,14 +9,18 @@ $colors: (
   black: #000000,
   red: #cc0000,
   green: green,
-  gold: gold
+  gold: gold,
+  blue: #699dff
 );
 $font-families: (
-  sans-serif: sans-serif
+  sans-serif: sans-serif,
+  commissioner: commissioner
 );
 $font-weights: (
   sans-serif-regular: 400,
-  sans-serif-bold: 800
+  sans-serif-bold: 800,
+  commissioner-regular: 400,
+  commissioner-bold: 700
 );
 $font-sizes: (
   base: rem(16),

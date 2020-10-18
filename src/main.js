@@ -2,6 +2,10 @@ import App from "./App.vue";
 import Vue from "vue";
 import store from "./store/index";
 import router from "./router";
+import VueSlider from "vue-slider-component";
+import "vue-slider-component/theme/antd.css";
+
+Vue.component("vue-slider", VueSlider);
 
 new Vue({
   el: "#app",

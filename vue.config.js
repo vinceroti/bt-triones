@@ -1,3 +1,5 @@
+const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
+
 module.exports = {
   css: {
     loaderOptions: {
@@ -11,5 +13,18 @@ module.exports = {
       preload: "src/preload.js",
       nodeIntegration: true,
     },
+  },
+  configureWebpack: {
+    plugins: [
+      new GoogleFontsPlugin({
+        fonts: [
+          {
+            family: "Commissioner",
+            variants: ["400", "400italic", "700", "700italic"],
+          },
+        ],
+        /* ...options */
+      }),
+    ],
   },
 };

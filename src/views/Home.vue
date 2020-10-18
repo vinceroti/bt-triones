@@ -29,8 +29,6 @@
 import { mapGetters } from "vuex";
 import bt from "@abandonware/noble";
 import Multiselect from "vue-multiselect";
-import VueSlider from "vue-slider-component";
-import "vue-slider-component/theme/antd.css";
 import "vue-multiselect/dist/vue-multiselect.min.css";
 import converter from "hex2dec";
 import { Chrome } from "vue-color";
@@ -41,7 +39,6 @@ let char;
 export default {
   components: {
     Multiselect,
-    VueSlider,
     "chrome-picker": Chrome,
   },
   data() {
@@ -128,7 +125,7 @@ export default {
       }
     }, 25),
     callback(e) {
-      console.log(e);
+      console.error(e);
     },
   },
 };

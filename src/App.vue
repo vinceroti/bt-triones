@@ -2,10 +2,10 @@
   <div id="app">
     <header>
       <status-bar />
-      <div class="nav">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/audio">Audio</router-link>
-      </div>
+      <ul class="nav">
+        <li><router-link to="/">Home</router-link></li>
+        <li><router-link to="/audio">Audio</router-link></li>
+      </ul>
     </header>
     <main v-if="btConnected" class="container">
       <transition name="slide-fade">
@@ -33,6 +33,21 @@ export default {
 @import "./assets/scss/_index.scss";
 
 .nav {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  li {
+    margin: spacing(element) 0;
+    &::after {
+      content: "";
+      margin: 0 5px;
+      border-right: 1px solid;
+    }
+    &:last-child {
+      &::after {
+        border: 0;
+        margin: 0;
+      }
+    }
+  }
 }
 </style>

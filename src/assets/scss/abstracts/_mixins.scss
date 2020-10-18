@@ -1,8 +1,8 @@
 @mixin h1 {
   font-size: font-size(h1-mobile);
-  font-weight: font-weight(sans-serif-bold);
+  font-weight: font-weight(commissioner-bold);
   text-transform: uppercase;
-  color: color(black);
+  color: color(white);
   margin: 0;
   @include respond-to(medium) {
     font-size: font-size(h1);
@@ -10,7 +10,7 @@
 }
 @mixin h2 {
   font-size: font-size(h2-mobile);
-  font-weight: font-weight(sans-serif-bold);
+  font-weight: font-weight(commissioner-bold);
   text-transform: uppercase;
   color: color(medium-gray);
   margin: 0 0 spacing(half);
@@ -20,10 +20,10 @@
 }
 @mixin h3 {
   font-size: font-size(h3-mobile);
-  font-weight: font-weight(sans-serif-bold);
+  font-weight: font-weight(commissioner-bold);
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: color(black);
+  color: color(white);
   margin: 0 0 spacing(element);
   @include respond-to(medium) {
     font-size: font-size(h3);
@@ -31,10 +31,10 @@
 }
 @mixin h4 {
   font-size: font-size(h4-mobile);
-  font-weight: font-weight(sans-serif-bold);
+  font-weight: font-weight(commissioner-bold);
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: color(black);
+  color: color(white);
   margin: 0 0 spacing(paragraph);
   @include respond-to(medium) {
     font-size: font-size(h4);
@@ -42,18 +42,18 @@
 }
 @mixin h5 {
   font-size: font-size(h5);
-  font-weight: font-weight(sans-serif-bold);
-  color: color(black);
+  font-weight: font-weight(commissioner-bold);
+  color: color(white);
   margin: 0 0 spacing(paragraph);
 }
 @mixin h6 {
   font-size: font-size(h6);
-  font-weight: font-weight(sans-serif-bold);
-  color: color(black);
+  font-weight: font-weight(commissioner-bold);
+  color: color(white);
   margin: 0 0 spacing(paragraph);
 }
 @mixin a {
-  color: color(medium-gray);
+  color: color(blue);
   text-decoration: none;
   transition: color 0.2s linear;
   -webkit-tap-highlight-color: transparent;
@@ -63,7 +63,7 @@
 }
 @mixin mini-a {
   @extend a;
-  color: color(black);
+  color: color(white);
   font-size: font-size(label);
   &:hover {
     color: color(light-gray);
@@ -121,7 +121,7 @@
 @mixin button-primary {
   @include button-base;
   background-color: color(black);
-  border: 1px solid color(black);
+  border: 1px solid color(white);
   font-size: rem(15);
   color: color(white);
   height: spacing(double);

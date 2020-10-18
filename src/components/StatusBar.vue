@@ -28,7 +28,6 @@ export default {
     &::after {
       content: "";
       margin: 0 5px;
-
       border-right: 1px solid;
     }
     &:last-child {

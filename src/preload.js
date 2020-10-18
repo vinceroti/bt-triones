@@ -2,14 +2,19 @@
 // It has the same sandbox as a Chrome extension.
 import bt from "@abandonware/noble";
 import store from "./store/index";
+import { ipcRenderer } from "electron";
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   bt.on("stateChange", async (state) => {
     if (state === "poweredOn") {
       await bt.startScanningAsync([], true);
       store.dispatch("bt/power", "on");
     }
   });
+});
+
+ipcRenderer.on("perm", (event, message) => {
+  store.dispatch("audio/micPermission", message);
 });
 
 bt.on("discover", async (peripheral) => {

@@ -2,7 +2,7 @@
 
 // eslint-disable-next-line no-unused-vars
 import store from "./store/index";
-import { app, protocol, BrowserWindow } from "electron";
+import { app, protocol, BrowserWindow, systemPreferences } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
@@ -11,7 +11,6 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
-
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
@@ -76,6 +75,13 @@ app.on("ready", async () => {
     }
   }
   createWindow();
+
+  win.webContents.on("did-finish-load", async () => {
+    const perm = await systemPreferences.getMediaAccessStatus("microphone");
+    const status = perm === ("denied" || "restricted") ? false : true;
+    systemPreferences.askForMediaAccess("microphone");
+    win.webContents.send("perm", status);
+  });
 });
 
 // Exit cleanly on request from parent process in development mode.
