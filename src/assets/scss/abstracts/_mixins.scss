@@ -100,7 +100,7 @@
   background: none;
   border: 0;
   font: inherit;
-  color: color(medium-gray);
+  color: color(blue);
   text-decoration: underline;
   &:hover, &.button-hover {
     color: color(black);
@@ -113,7 +113,7 @@
   border: 0;
   font: inherit;
   text-transform: none;
-  color: color(medium-gray);
+  color: color(blue);
   &:hover, &.button-hover {
     text-decoration: underline;
   }

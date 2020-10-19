@@ -9,6 +9,10 @@ window.addEventListener("DOMContentLoaded", async () => {
     if (state === "poweredOn") {
       await bt.startScanningAsync([], true);
       store.dispatch("bt/power", "on");
+    } else {
+      store.dispatch("bt/char", null);
+      store.dispatch("bt/connect", false);
+      store.dispatch("bt/deviceId", null);
     }
   });
 });
@@ -28,6 +32,14 @@ bt.on("discover", async (peripheral) => {
         store.dispatch("bt/connectText", name);
         store.dispatch("bt/connect", true);
         store.dispatch("bt/deviceId", peripheral.id);
+        peripheral.discoverAllServicesAndCharacteristics(
+          (error, services, characteristics) => {
+            characteristics.forEach((c) => {
+              console.log(c);
+              if (c.properties.includes("write")) window.char = c;
+            });
+          }
+        );
       });
     } catch (e) {
       console.error(e);

@@ -5,6 +5,7 @@
       <ul class="nav">
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/audio">Audio</router-link></li>
+        <li><router-link to="/screen">Screen</router-link></li>
       </ul>
     </header>
     <main v-if="btConnected" class="container">
@@ -19,7 +20,6 @@
 import StatusBar from "./components/StatusBar.vue";
 import { mapGetters } from "vuex";
 export default {
-  name: "App",
   components: {
     StatusBar,
   },

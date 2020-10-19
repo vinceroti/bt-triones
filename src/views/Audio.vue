@@ -5,13 +5,17 @@
       :media="media"
       type="frequ"
       line-color="#00AAFF"
-      :radius="4"
       :canv-height="200"
       :frequ-lnum="sliderValue"
     />
     <meter max="100" :value="value"></meter>
-    <vue-slider v-model="sliderValue" /> Intensity Slider -
-    {{ Math.round(value) }}
+    <div>
+      <vue-slider v-model="sliderValue" /> Intensity Slider -
+      {{ Math.round(value) }}
+    </div>
+    <button class="button-link" :class="{ lights }" @click="click">
+      {{ lights ? "Disconnect" : "Connect" }}
+    </button>
   </div>
 </template>
 
@@ -19,6 +23,7 @@
 import Vue from "vue";
 import VueMedia from "vue-audio-visual";
 import { mapGetters } from "vuex";
+import debounce from "lodash/debounce";
 
 Vue.use(VueMedia);
 export default {
@@ -29,10 +34,11 @@ export default {
       ac: null,
       an: null,
       sliderValue: 50,
+      lights: false,
     };
   },
   computed: {
-    ...mapGetters({ micPerm: "audio/micPermission" }),
+    ...mapGetters({ micPerm: "audio/micPermission", color: "bt/color" }),
   },
   async mounted() {
     if (!this.micPerm) return this.alert();
@@ -81,9 +87,26 @@ export default {
 
       let total = 0;
       for (let i = 0; i < freqs.length; i++) total += freqs[i];
-      const avg = total / freqs.length;
-      this.value = avg * (this.sliderValue * 0.02);
+      let avg = total / freqs.length;
+      avg = avg * (this.sliderValue * 0.02);
+      avg = avg > 100 ? 100 : avg;
+      this.value = avg;
       if (!this._isDestroyed) requestAnimationFrame(this.freqLoop);
+      if (this.lights) this.write();
+    },
+    click() {
+      this.lights = !this.lights;
+    },
+    write: debounce(function () {
+      const m = this.value / 100;
+      const r = this.color[0] * m;
+      const g = this.color[1] * m;
+      const b = this.color[2] * m;
+      const buff = Buffer.from([0x56, r, g, b, 0x00, 0xf0, 0xaa]);
+      window.char.write(buff, true, this.callback);
+    }, 2),
+    callback(e) {
+      if (e) console.error(e);
     },
   },
 };
@@ -106,6 +129,9 @@ export default {
 }
 meter {
   width: 100%;
+}
+.lights {
+  font-weight: font-weight(commissioner-bold);
 }
 </style>
 <style lang="scss"></style>

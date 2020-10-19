@@ -6,12 +6,14 @@ export default {
     power:
       "Bluetooth is off. On your computer, make sure Bluetooth is turned on",
     deviceId: false,
+    color: [0, 0, 0],
   },
   getters: {
     connected: (state) => state.connected,
     connectText: (state) => state.connectedText,
     power: (state) => state.power,
     deviceId: (state) => state.deviceId,
+    color: (state) => state.color,
   },
   mutations: {
     setConnection(state, status) {
@@ -26,6 +28,9 @@ export default {
     setId(state, status) {
       state.deviceId = status;
     },
+    setColor(state, status) {
+      state.color = status;
+    },
   },
   actions: {
     connect(context, status) {
@@ -39,6 +44,9 @@ export default {
     },
     deviceId(context, status) {
       context.commit("setId", status);
+    },
+    color(context, status) {
+      context.commit("setColor", status);
     },
   },
 };

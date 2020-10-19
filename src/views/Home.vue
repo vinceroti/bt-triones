@@ -26,13 +26,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import bt from "@abandonware/noble";
 import Multiselect from "vue-multiselect";
 import "vue-multiselect/dist/vue-multiselect.min.css";
 import converter from "hex2dec";
 import { Chrome } from "vue-color";
 import debounce from "lodash/debounce";
+import { mapActions } from "vuex";
 
 export default {
   components: {
@@ -67,46 +66,22 @@ export default {
         { code: 0x38, name: "Seven color jumping change" },
       ],
       colorPicker: 0,
-      char: null,
     };
   },
-  computed: {
-    ...mapGetters({ deviceId: "bt/deviceId" }),
-  },
-  watch: {
-    deviceId() {
-      this.findChar();
-    },
-  },
-  mounted() {
-    this.findChar();
-  },
-  beforeDestroy() {
-    // this. null;
-  },
   methods: {
-    findChar() {
-      if (this.deviceId && !this.char) {
-        const peripheral = bt._peripherals[this.deviceId];
-        peripheral.discoverAllServicesAndCharacteristics(
-          (error, services, characteristics) => {
-            characteristics.forEach((c) => {
-              if (c.properties.includes("write")) this.char = c;
-            });
-          }
-        );
-      }
-    },
+    ...mapActions({
+      sColor: "bt/color",
+    }),
     select(e) {
-      if (this.char) {
+      if (window.char) {
         const buff = Buffer.from([0xbb, e.code, this.speed, 0x44]);
-        this.char.write(buff, true, this.callback);
+        window.char.write(buff, true, this.callback);
       }
     },
     click(code) {
-      if (this.char) {
+      if (window.char) {
         const buff = Buffer.from([0xcc, code, 0x33]);
-        this.char.write(buff, true, this.callback);
+        window.char.write(buff, true, this.callback);
       }
     },
     slide(e) {
@@ -115,16 +90,25 @@ export default {
       if (this.dropdownValue) this.select(this.dropdownValue);
     },
     inputColor: debounce(function (e) {
-      if (this.char) {
-        const r = converter.decToHex(e.rgba.r.toString());
-        const g = converter.decToHex(e.rgba.g.toString());
-        const b = converter.decToHex(e.rgba.b.toString());
-        const buff = Buffer.from([0x56, r, g, b, 0x00, 0xf0, 0xaa]);
-        this.char.write(buff, true, this.callback);
+      if (window.char) {
+        // const r = converter.decToHex(e.rgba.r.toString());
+        // const g = converter.decToHex(e.rgba.g.toString());
+        // const b = converter.decToHex(e.rgba.b.toString());
+        const buff = Buffer.from([
+          0x56,
+          e.rgba.r,
+          e.rgba.g,
+          e.rgba.b,
+          0x00,
+          0xf0,
+          0xaa,
+        ]);
+        window.char.write(buff, true, this.callback);
+        this.sColor([e.rgba.r, e.rgba.g, e.rgba.b]);
       }
-    }, 25),
+    }, 0),
     callback(e) {
-      console.error(e);
+      if (e) console.error(e);
     },
   },
 };

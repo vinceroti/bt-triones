@@ -14,6 +14,7 @@
     "@abandonware/noble": "^1.9.2-10",
     "@beyonk/google-fonts-webpack-plugin": "^1.5.0",
     "core-js": "^3.6.5",
+    "fast-average-color": "^6.1.0",
     "hex2dec": "^1.1.2",
     "lodash": "^4.17.20",
     "vue": "^2.6.12",
