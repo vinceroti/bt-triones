@@ -23,7 +23,6 @@
 import Vue from "vue";
 import VueMedia from "vue-audio-visual";
 import { mapGetters } from "vuex";
-import debounce from "lodash/debounce";
 
 Vue.use(VueMedia);
 export default {
@@ -92,21 +91,23 @@ export default {
       avg = avg > 100 ? 100 : avg;
       this.value = avg;
       if (!this._isDestroyed) requestAnimationFrame(this.freqLoop);
-      if (this.lights) this.write();
     },
     click() {
       this.lights = !this.lights;
+      if (this.lights) this.write();
     },
-    write: debounce(function () {
+    write: function () {
       const m = this.value / 100;
       const r = this.color[0] * m;
       const g = this.color[1] * m;
       const b = this.color[2] * m;
       const buff = Buffer.from([0x56, r, g, b, 0x00, 0xf0, 0xaa]);
-      window.char.write(buff, true, this.callback);
-    }, 2),
+      window.char.write(buff, false, this.callback);
+    },
     callback(e) {
       if (e) console.error(e);
+      console.log("write");
+      if (this.lights) this.write();
     },
   },
 };

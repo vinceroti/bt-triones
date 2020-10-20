@@ -10,7 +10,6 @@ window.addEventListener("DOMContentLoaded", async () => {
       await bt.startScanningAsync([], true);
       store.dispatch("bt/power", "on");
     } else {
-      store.dispatch("bt/char", null);
       store.dispatch("bt/connect", false);
       store.dispatch("bt/deviceId", null);
     }
