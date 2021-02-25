@@ -42,8 +42,8 @@
     "eslint-plugin-vue": "^7.0.0-0",
     "eslint-plugin-vue-a11y": "0.0.31",
     "prettier": "2.1.2",
-    "sass": "^1.26.12",
-    "sass-loader": "^10.0.2",
+    "sass": "^1.27.0",
+    "sass-loader": "^10.0.3",
     "vue-cli-plugin-electron-builder": "~2.0.0-rc.4",
     "vue-template-compiler": "^2.6.12"
   },

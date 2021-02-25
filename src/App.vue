@@ -2,7 +2,7 @@
   <div id="app">
     <header>
       <status-bar />
-      <ul class="nav">
+      <ul v-if="btConnected" class="nav">
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/audio">Audio</router-link></li>
         <li><router-link to="/screen">Screen</router-link></li>

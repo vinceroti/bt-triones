@@ -9,9 +9,13 @@ window.addEventListener("DOMContentLoaded", async () => {
     if (state === "poweredOn") {
       await bt.startScanningAsync([], true);
       store.dispatch("bt/power", "on");
+      store.dispatch("bt/connectText", "starting...");
     } else {
+      window.char = undefined;
+      store.dispatch("bt/power", "off");
       store.dispatch("bt/connect", false);
       store.dispatch("bt/deviceId", null);
+      store.dispatch("bt/connectText", "disconnected");
     }
   });
 });
@@ -25,17 +29,20 @@ bt.on("discover", async (peripheral) => {
   let name = peripheral.advertisement.localName;
   if (name && name.includes("Triones")) {
     try {
-      await peripheral.connect();
+      const connect = await peripheral.connect();
+      console.log(connect);
       await bt.stopScanningAsync();
       peripheral.once("connect", async () => {
         store.dispatch("bt/connectText", name);
-        store.dispatch("bt/connect", true);
         store.dispatch("bt/deviceId", peripheral.id);
         peripheral.discoverAllServicesAndCharacteristics(
           (error, services, characteristics) => {
             characteristics.forEach((c) => {
-              console.log(c);
-              if (c.properties.includes("write")) window.char = c;
+              if (c.properties.includes("write")) {
+                console.log(c);
+                window.char = c;
+                store.dispatch("bt/connect", true);
+              }
             });
           }
         );
