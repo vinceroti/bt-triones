@@ -3,6 +3,7 @@
 import bt from "@abandonware/noble";
 import store from "./store/index";
 import { ipcRenderer } from "electron";
+let currentP = null;
 
 window.addEventListener("DOMContentLoaded", async () => {
   bt.on("stateChange", async (state) => {
@@ -20,26 +21,41 @@ window.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
+window.addEventListener("startScan", async () => {
+  if (currentP) await currentP.disconnect();
+  await bt.startScanningAsync([], true);
+  store.dispatch("bt/connectText", "starting...");
+});
+
 ipcRenderer.on("perm", (event, message) => {
   store.dispatch("audio/micPermission", message);
 });
 
 bt.on("discover", async (peripheral) => {
-  store.dispatch("bt/connectText", "scanning...");
+  if (store.getters["bt/connectText"] !== "Finding & Connecting...")
+    store.dispatch("bt/connectText", "scanning...");
   let name = peripheral.advertisement.localName;
-  if (name && name.includes("Triones")) {
+  const arr = store.getters["bt/devicesFound"];
+  if (name && !arr.find((e) => e.id === peripheral.id)) {
+    arr.push({
+      id: peripheral.id,
+      name: peripheral.advertisement.localName,
+    });
+    store.dispatch("bt/devicesFound", arr);
+  }
+  console.log(name);
+  const storeDevice = store.getters["bt/device"];
+  if (storeDevice && storeDevice.id && storeDevice.id === peripheral.id) {
     try {
-      const connect = await peripheral.connect();
-      console.log(connect);
       await bt.stopScanningAsync();
+      await peripheral.connect();
+      currentP = peripheral;
       peripheral.once("connect", async () => {
         store.dispatch("bt/connectText", name);
-        store.dispatch("bt/deviceId", peripheral.id);
         peripheral.discoverAllServicesAndCharacteristics(
           (error, services, characteristics) => {
             characteristics.forEach((c) => {
               if (c.properties.includes("write")) {
-                console.log(c);
                 window.char = c;
                 store.dispatch("bt/connect", true);
               }

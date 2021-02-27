@@ -1,5 +1,6 @@
 <template>
   <div class="audio-container">
+    <p>Select color from home page before using this feature</p>
     <av-media
       v-if="micPerm"
       :media="media"
@@ -23,9 +24,11 @@
 import Vue from "vue";
 import VueMedia from "vue-audio-visual";
 import { mapGetters } from "vuex";
+import write from "../mixins/write";
 
 Vue.use(VueMedia);
 export default {
+  mixins: [write],
   data() {
     return {
       media: null,
@@ -45,7 +48,8 @@ export default {
     this.audioDb();
   },
   beforeDestroy() {
-    if (this.ac) this.ac.suspend();
+    if (this.ac) this.ac.close();
+    this.lights = false;
     cancelAnimationFrame(this.ac);
   },
   methods: {
@@ -56,12 +60,9 @@ export default {
     },
     async setAudio() {
       try {
-        navigator.getUserMedia =
-          navigator.getUserMedia || navigator.webkitGetUserMedia;
-        const media = await navigator.mediaDevices.getUserMedia({
+        this.media = await navigator.mediaDevices.getUserMedia({
           audio: true,
         });
-        this.media = media;
       } catch (e) {
         console.error(e);
       }
@@ -94,7 +95,10 @@ export default {
     },
     click() {
       this.lights = !this.lights;
-      if (this.lights) this.write();
+      if (this.lights) {
+        this.toggleDevice(0x23);
+        this.write();
+      }
     },
     write: function () {
       const m = this.value / 100;
@@ -106,7 +110,6 @@ export default {
     },
     callback(e) {
       if (e) console.error(e);
-      console.log("write");
       if (this.lights) this.write();
     },
   },

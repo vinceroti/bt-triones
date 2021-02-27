@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="on-off">
-      <button ref="button" class="button-primary" @click="click(0x23)">
+      <button ref="button" class="button-primary" @click="toggleDevice(0x23)">
         Turn On
       </button>
-      <button ref="button" class="button-primary" @click="click(0x24)">
+      <button ref="button" class="button-primary" @click="toggleDevice(0x24)">
         Turn Off
       </button>
     </div>
@@ -32,12 +32,14 @@ import converter from "hex2dec";
 import { Chrome } from "vue-color";
 import debounce from "lodash/debounce";
 import { mapActions } from "vuex";
+import write from "../mixins/write";
 
 export default {
   components: {
     Multiselect,
     "chrome-picker": Chrome,
   },
+  mixins: [write],
   data() {
     return {
       speed: 25,
@@ -75,13 +77,7 @@ export default {
     select(e) {
       if (window.char) {
         const buff = Buffer.from([0xbb, e.code, this.speed, 0x44]);
-        window.char.write(buff, true, this.callback);
-      }
-    },
-    click(code) {
-      if (window.char) {
-        const buff = Buffer.from([0xcc, code, 0x33]);
-        window.char.write(buff, true, this.callback);
+        window.char.write(buff, true, this.defaultCallback);
       }
     },
     slide(e) {
@@ -103,13 +99,10 @@ export default {
           0xf0,
           0xaa,
         ]);
-        window.char.write(buff, true, this.callback);
+        window.char.write(buff, true, this.defaultCallback);
         this.sColor([e.rgba.r, e.rgba.g, e.rgba.b]);
       }
     }, 0),
-    callback(e) {
-      if (e) console.error(e);
-    },
   },
 };
 </script>
