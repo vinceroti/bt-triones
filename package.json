@@ -1,6 +1,6 @@
 {
   "name": "bt-triones",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "scripts": {
     "build": "vue-cli-service electron:build",
     "dev": "vue-cli-service electron:serve",
