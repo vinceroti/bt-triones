@@ -43,7 +43,6 @@ bt.on("discover", async (peripheral) => {
     });
     store.dispatch("bt/devicesFound", arr);
   }
-  console.log(name);
   const storeDevice = store.getters["bt/device"];
   if (storeDevice && storeDevice.id && storeDevice.id === peripheral.id) {
     try {

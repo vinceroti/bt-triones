@@ -92,7 +92,6 @@ export default {
     },
     callback(e) {
       if (e) console.error(e);
-      console.log("write");
       this.start();
     },
   },
