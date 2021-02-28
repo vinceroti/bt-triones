@@ -1,10 +1,11 @@
 {
   "name": "bt-triones",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Bluetooth Triones Device built on Electron",
   "author": "Vince R",
   "scripts": {
     "build": "vue-cli-service electron:build",
+    "build-all": "vue-cli-service electron:build -wml",
     "dev": "vue-cli-service electron:serve",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
