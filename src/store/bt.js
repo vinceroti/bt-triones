@@ -2,9 +2,8 @@ export default {
   namespaced: true,
   state: {
     connected: false,
-    connectedText: "disconnected",
-    power:
-      "Bluetooth is off. On your computer, make sure Bluetooth is turned on",
+    connectedText: "Disconnected",
+    power: "Unknown",
     device: null,
     devicesFound: [],
     color: [0, 0, 0],

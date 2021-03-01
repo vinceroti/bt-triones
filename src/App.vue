@@ -2,6 +2,7 @@
   <div id="app">
     <header>
       <status-bar />
+      <BTConnect v-if="!btConnected" />
       <ul v-if="btConnected" class="nav">
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/audio">Audio</router-link></li>
@@ -18,10 +19,12 @@
 
 <script>
 import StatusBar from "./components/StatusBar.vue";
+import BTConnect from "./components/BTConnect.vue";
 import { mapGetters } from "vuex";
 export default {
   components: {
     StatusBar,
+    BTConnect,
   },
   computed: {
     ...mapGetters({ btConnected: "bt/connected", deviceId: "bt/deviceId" }),

@@ -2,7 +2,13 @@
 
 // eslint-disable-next-line no-unused-vars
 import store from "./store/index";
-import { app, protocol, BrowserWindow, systemPreferences } from "electron";
+import {
+  app,
+  protocol,
+  BrowserWindow,
+  systemPreferences,
+  ipcMain,
+} from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
@@ -11,6 +17,8 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
+
+app.commandLine.appendSwitch("enable-web-bluetooth", true);
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
@@ -66,6 +74,8 @@ app.on("activate", () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", async () => {
+  let btDevice;
+
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
     try {
@@ -76,6 +86,24 @@ app.on("ready", async () => {
   }
   createWindow();
 
+  ipcMain.on("bt-device", (event, device) => {
+    btDevice = device;
+  });
+  win.webContents.on(
+    "select-bluetooth-device",
+    (event, deviceList, callback) => {
+      console.log(btDevice);
+      event.preventDefault();
+      const result = deviceList.find((device) => {
+        return device.deviceName === btDevice;
+      });
+      win.webContents.send("deviceList", deviceList);
+      if (result) {
+        console.log("linked", result);
+        callback(result.deviceId);
+      }
+    }
+  );
   win.webContents.on("did-finish-load", async () => {
     const perm = await systemPreferences.getMediaAccessStatus("microphone");
     const status = perm === ("denied" || "restricted") ? false : true;

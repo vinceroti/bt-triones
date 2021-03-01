@@ -7,34 +7,15 @@
         <button class="button-link" @click="disconnect">Disconnect</button>
       </li>
     </ul>
-    <multiselect
-      v-if="!connected"
-      v-model="dropdownValue"
-      placeholder="Select Device"
-      :options="devices"
-      track-by="name"
-      label="name"
-      @input="input"
-    ></multiselect>
   </div>
 </template>
 
 <script>
-import Multiselect from "vue-multiselect";
-import "vue-multiselect/dist/vue-multiselect.min.css";
 import { mapGetters } from "vuex";
 
 export default {
-  components: {
-    Multiselect,
-  },
   props: {
     msg: { type: String, default: "" },
-  },
-  data() {
-    return {
-      dropdownValue: null,
-    };
   },
   computed: {
     ...mapGetters({
@@ -46,26 +27,22 @@ export default {
     }),
   },
   methods: {
-    input(val) {
-      this.$store.dispatch("bt/connect", false);
-      if (val) {
-        this.$store.dispatch("bt/connectText", "Finding & Connecting...");
-        let event = new Event("reconnectBT");
+    async disconnect() {
+      try {
+        const bluetoothDevice = await navigator.bluetooth.requestDevice({
+          acceptAllDevices: true,
+        });
+        bluetoothDevice.gatt.disconnect();
+        this.$store.dispatch("bt/connect", false);
+        this.$store.dispatch("bt/connectText", "disconnected");
+        this.$store.dispatch("bt/power", "on");
+        let event = new CustomEvent("bt-device", {
+          detail: { device: undefined },
+        });
         window.dispatchEvent(event);
-        this.$store.dispatch("bt/device", val);
+      } catch (error) {
+        console.error("Argh! " + error);
       }
-      if (!val) this.disconnect();
-    },
-    startScan() {
-      let event = new Event("startScan");
-      window.dispatchEvent(event);
-    },
-    disconnect() {
-      this.$store.dispatch("bt/connect", false);
-      this.dropdownValue = null;
-      this.$store.dispatch("bt/device", null);
-      this.$store.dispatch("bt/devicesFound", []);
-      this.startScan();
     },
   },
 };
