@@ -73,7 +73,7 @@ export default {
       tracks.forEach((track) => track.stop());
       this.$refs.video.srcObject = null;
     },
-    start() {
+    async start() {
       if (!this._isDestroyed && this.stream) {
         const c = new FastColorAverage().getColor(this.$refs.video);
         const buff = Buffer.from([
@@ -85,13 +85,18 @@ export default {
           0xf0,
           0xaa,
         ]);
-        window.char.write(buff, false, this.callback);
+        try {
+          await window.char.writeValue(buff);
+          this.callback();
+        } catch (e) {
+          this.callback(e);
+        }
       } else {
         return;
       }
     },
     callback(e) {
-      if (e) console.error(e);
+      if (e) return console.error(e);
       this.start();
     },
   },

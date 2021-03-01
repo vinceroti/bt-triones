@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <button v-if="!searching" class="button-link" @click="findBT">
+    <button v-if="!searching" class="button-link" @click="search">
       Search for BT Devices
     </button>
     <multiselect
@@ -12,6 +12,9 @@
       label="deviceName"
       @input="input"
     ></multiselect>
+    <button v-if="reconnect && !searching" class="button-link" @click="connect">
+      Reconnect to: {{ reconnect }}
+    </button>
   </div>
 </template>
 
@@ -31,20 +34,50 @@ export default {
     ...mapGetters({
       devices: "bt/devicesFound",
       connected: "bt/connected",
+      reconnect: "bt/reconnect",
     }),
   },
   methods: {
-    async findBT() {
+    async search() {
       try {
         this.searching = true;
-        const device = await navigator.bluetooth.requestDevice({
+        window.device = await navigator.bluetooth.requestDevice({
           // filters: [...] <- Prefer filters to save energy & show relevant devices.
+          // UUID for write, write no response
+          optionalServices: [0xffd5],
           acceptAllDevices: true,
         });
-        await device.gatt.connect();
+        this.connect();
+      } catch (e) {
+        console.error(e);
+        this.$store.dispatch(
+          "bt/power",
+          "Error occured or possibly no BT Device found"
+        );
+        this.searching = false;
+      }
+    },
+    async connect() {
+      try {
+        const device = window.device;
+        this.$store.dispatch("bt/connectText", "Connecting to GATT Server...");
+        const server = await device.gatt.connect();
 
-        this.$store.dispatch("bt/connect", true);
-        this.$store.dispatch("bt/connectText", device.name);
+        // Note that we could also get all services that match a specific UUID by
+        // passing it to getPrimaryServices().
+        this.$store.dispatch("bt/connectText", "Getting Services...");
+        const services = await server.getPrimaryServices();
+        this.$store.dispatch("bt/connectText", "Getting Characteristics...");
+        for (const service of services) {
+          const characteristics = await service.getCharacteristics();
+          characteristics.forEach(async (c) => {
+            if (c.properties.writeWithoutResponse) {
+              window.char = c;
+              this.$store.dispatch("bt/connect", true);
+              this.$store.dispatch("bt/connectText", device.name);
+            }
+          });
+        }
       } catch (error) {
         console.error(error);
         this.$store.dispatch(
@@ -53,6 +86,7 @@ export default {
         );
         this.$store.dispatch("bt/connect", false);
         this.$store.dispatch("bt/connectText", "disconnected");
+        this.$store.dispatch("bt/reconnect", false);
         this.searching = false;
       }
     },

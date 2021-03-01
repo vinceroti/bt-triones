@@ -1,6 +1,7 @@
 export default {
   namespaced: true,
   state: {
+    reconnect: false,
     connected: false,
     connectedText: "Disconnected",
     power: "Unknown",
@@ -9,6 +10,7 @@ export default {
     color: [0, 0, 0],
   },
   getters: {
+    reconnect: (state) => state.reconnect,
     connected: (state) => state.connected,
     connectText: (state) => state.connectedText,
     power: (state) => state.power,
@@ -17,6 +19,9 @@ export default {
     color: (state) => state.color,
   },
   mutations: {
+    setReconnect(state, status) {
+      state.reconnect = status;
+    },
     setConnection(state, status) {
       state.connected = status;
     },
@@ -37,6 +42,9 @@ export default {
     },
   },
   actions: {
+    reconnect(context, status) {
+      context.commit("setReconnect", status);
+    },
     connect(context, status) {
       context.commit("setConnection", status);
     },

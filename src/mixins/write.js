@@ -1,13 +1,10 @@
 const write = {
   methods: {
-    toggleDevice: (code) => {
+    toggleDevice: async (code) => {
       if (window.char) {
         const buff = Buffer.from([0xcc, code, 0x33]);
-        window.char.write(buff, true, write.methods.defaultCallback);
+        await window.char.writeValue(buff);
       }
-    },
-    defaultCallback: (e) => {
-      if (e) console.error(e);
     },
   },
 };

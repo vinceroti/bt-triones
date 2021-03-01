@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="on-off">
+    <div class="on-off" :class="{ sending }">
       <button ref="button" class="button-primary" @click="toggleDevice(0x23)">
         Turn On
       </button>
@@ -14,12 +14,14 @@
       :options="dropDownOptions"
       track-by="name"
       label="name"
+      :class="{ sending }"
       @select="select"
     ></multiselect>
-    <vue-slider v-model="sliderValue" @change="slide" />
+    <vue-slider v-model="sliderValue" :class="{ sending }" />
     <chrome-picker
       v-model="colorPicker"
       class="custom-styling-picker"
+      @change="slide"
       @input="inputColor"
     />
   </div>
@@ -42,6 +44,7 @@ export default {
   mixins: [write],
   data() {
     return {
+      sending: false,
       speed: 25,
       sliderValue: 0,
       dropdownValue: null,
@@ -74,10 +77,10 @@ export default {
     ...mapActions({
       sColor: "bt/color",
     }),
-    select(e) {
+    async select(e) {
       if (window.char) {
         const buff = Buffer.from([0xbb, e.code, this.speed, 0x44]);
-        window.char.write(buff, true, this.defaultCallback);
+        await window.char.writeValue(buff);
       }
     },
     slide(e) {
@@ -85,11 +88,9 @@ export default {
       this.speed = converter.decToHex(Math.abs(e - 100).toString());
       if (this.dropdownValue) this.select(this.dropdownValue);
     },
-    inputColor: debounce(function (e) {
-      if (window.char) {
-        // const r = converter.decToHex(e.rgba.r.toString());
-        // const g = converter.decToHex(e.rgba.g.toString());
-        // const b = converter.decToHex(e.rgba.b.toString());
+    inputColor: debounce(async function (e) {
+      if (window.char && !this.sending) {
+        this.sending = true;
         const buff = Buffer.from([
           0x56,
           e.rgba.r,
@@ -99,7 +100,12 @@ export default {
           0xf0,
           0xaa,
         ]);
-        window.char.write(buff, true, this.defaultCallback);
+        try {
+          await window.char.writeValue(buff);
+        } catch (e) {
+          console.error(e);
+        }
+        this.sending = false;
         this.sColor([e.rgba.r, e.rgba.g, e.rgba.b]);
       }
     }, 0),
@@ -117,6 +123,9 @@ export default {
 }
 .vue-slider {
   margin-bottom: spacing(base);
+}
+.sending {
+  pointer-events: none;
 }
 </style>
 <style lang="scss">

@@ -29,13 +29,11 @@ export default {
   methods: {
     async disconnect() {
       try {
-        const bluetoothDevice = await navigator.bluetooth.requestDevice({
-          acceptAllDevices: true,
-        });
-        bluetoothDevice.gatt.disconnect();
+        await window.device.gatt.disconnect();
         this.$store.dispatch("bt/connect", false);
         this.$store.dispatch("bt/connectText", "disconnected");
         this.$store.dispatch("bt/power", "on");
+        this.$store.dispatch("bt/reconnect", window.device.name);
         let event = new CustomEvent("bt-device", {
           detail: { device: undefined },
         });

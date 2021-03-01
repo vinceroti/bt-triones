@@ -24,11 +24,9 @@
 import Vue from "vue";
 import VueMedia from "vue-audio-visual";
 import { mapGetters } from "vuex";
-import write from "../mixins/write";
 
 Vue.use(VueMedia);
 export default {
-  mixins: [write],
   data() {
     return {
       media: null,
@@ -96,20 +94,25 @@ export default {
     click() {
       this.lights = !this.lights;
       if (this.lights) {
-        this.toggleDevice(0x23);
         this.write();
       }
     },
-    write: function () {
+    write: async function () {
       const m = this.value / 100;
       const r = this.color[0] * m;
       const g = this.color[1] * m;
       const b = this.color[2] * m;
       const buff = Buffer.from([0x56, r, g, b, 0x00, 0xf0, 0xaa]);
-      window.char.write(buff, false, this.callback);
+      try {
+        const res = await window.char.writeValue(buff);
+        console.log(res);
+        this.callback();
+      } catch (e) {
+        this.callback(e);
+      }
     },
     callback(e) {
-      if (e) console.error(e);
+      if (e) return console.error(e);
       if (this.lights) this.write();
     },
   },
