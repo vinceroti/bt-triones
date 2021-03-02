@@ -1,6 +1,6 @@
 {
   "name": "bt-triones",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Bluetooth Triones Device built on Electron",
   "author": "Vince R",
   "scripts": {
