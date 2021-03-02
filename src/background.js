@@ -108,7 +108,11 @@ app.on("ready", async () => {
     const perm = await systemPreferences.getMediaAccessStatus("microphone");
     const status = perm === ("denied" || "restricted") ? false : true;
     systemPreferences.askForMediaAccess("microphone");
-    win.webContents.send("perm", status);
+    if (process.platform === "win32") {
+      win.webContents.send("perm", true);
+    } else {
+      win.webContents.send("perm", status);
+    }
   });
 });
 

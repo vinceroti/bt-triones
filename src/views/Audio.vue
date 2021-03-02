@@ -52,9 +52,7 @@ export default {
   },
   methods: {
     alert() {
-      alert(
-        "macOS 10.14 Mojave or higher requires consent for microphone access. Please allow this app to access your Microphone in Security & Privacy within system preferences to use this feature"
-      );
+      alert("No microphone detected or access to microphone is restricted");
     },
     async setAudio() {
       try {
