@@ -105,13 +105,9 @@ app.on("ready", async () => {
     }
   );
   win.webContents.on("did-finish-load", async () => {
-    const perm = await systemPreferences.getMediaAccessStatus("microphone");
-    const status = perm === ("denied" || "restricted") ? false : true;
-    systemPreferences.askForMediaAccess("microphone");
-    if (process.platform === "win32") {
-      win.webContents.send("perm", true);
-    } else {
-      win.webContents.send("perm", status);
+    if (process.platform === "darwin") {
+      const perm = await systemPreferences.askForMediaAccess("microphone");
+      win.webContents.send("perm", perm);
     }
   });
 });

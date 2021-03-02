@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    micPermission: null,
+    micPermission: true,
   },
   getters: {
     micPermission: (state) => state.micPermission,
