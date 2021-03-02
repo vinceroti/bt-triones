@@ -1,6 +1,6 @@
 # bt-triones
 
-**THIS IS NOT FINISHED AND IS STILL VERY BUGGY**
+**THIS IS UNFINISHED AND IS STILL VERY BUGGY**
 
 This is an vue electron application that hooks into Triones bluetooth devices.
 
